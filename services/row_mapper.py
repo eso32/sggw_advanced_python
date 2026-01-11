@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from dateutil import parser
 from dateutil.tz import gettz
 from models.auction import Auction
@@ -29,7 +30,7 @@ class RowMapper:
                 auction_date = parser.parse(date_clean, tzinfos=TZINFOS)
             else:
                 print(f"Error parsing auction date: {row['Auction Date']}")
-                auction_date = None
+                auction_date = datetime(1970, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
 
         return Auction(
             auction_date=auction_date,

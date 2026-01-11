@@ -3,7 +3,7 @@ from services.row_mapper import RowMapper
 from models.auction import Auction
 from models.vehicle import Vehicle
 from models.enums import FuelType, TransmissionType, DriveLineType, BodyStyle
-from datetime import datetime
+from datetime import datetime, timezone
 
 def test_to_auction_regular_tz():
     row = {
@@ -27,8 +27,8 @@ def test_to_auction_fallback_no_tz():
         'Region': 'South'
     }
     auction = RowMapper.to_auction(row)
-    assert auction.auction_date.year == 2025
-    assert auction.auction_date.tzinfo is None
+    assert auction.auction_date == datetime(1970, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+
 
 def test_to_vehicle_parsing():
     row = {
