@@ -23,9 +23,13 @@ class RowMapper:
         try:
             auction_date = parser.parse(row['Auction Date'], tzinfos=TZINFOS)
         except Exception:
-            # fallback: usuń wszystko po ostatniej spacji i sparsuj bez tz
-            date_clean = row['Auction Date'].rsplit(' ', 1)[0]
-            auction_date = parser.parse(date_clean)
+            if "/" in row['Auction Date']:
+                date_raw = row['Auction Date'].rsplit("/", 1)[0].strip()
+                date_clean = date_raw
+                auction_date = parser.parse(date_clean, tzinfos=TZINFOS)
+            else:
+                print(f"Error parsing auction date: {row['Auction Date']}")
+                auction_date = None
 
         return Auction(
             auction_date=auction_date,

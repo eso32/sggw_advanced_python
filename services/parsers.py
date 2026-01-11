@@ -9,7 +9,6 @@ def parse_int(value: str) -> Optional[int]:
     digits = re.sub(r'[^0-9]', '', value)
     return int(digits) if digits else None
 
-
 def parse_body_style(value: str) -> BodyStyle:
     try:
         return BodyStyle(value)
